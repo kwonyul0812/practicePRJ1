@@ -49,4 +49,11 @@ public interface BoardMapper {
             WHERE id = #{id}
             """)
     int delete(Integer id);
+
+
+    @Select("""
+            SELECT COUNT(*)
+            FROM board;
+            """)
+    int countAll();
 }
