@@ -10,10 +10,11 @@ public interface BoardMapper {
 
     @Insert("""
             INSERT INTO board
-            (title, content, writer)
-            VALUES (#{title}, #{content}, #{writer})
+            (title, content, member_Id)
+            VALUES (#{title}, #{content}, #{memberId})
             """)
-    void insert(Board board);
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int insert(Board board);
 
 
     @Select("""
@@ -25,9 +26,14 @@ public interface BoardMapper {
 
 
     @Select("""
-            SELECT *
-            FROM board
-            WHERE id = #{id}
+            SELECT b.id,
+                   b.title,
+                   b.content,
+                   b.inserted,
+                   m.nick_name writer,
+                   m.id member_id
+            FROM board b JOIN member m ON b.member_id = m.id
+            WHERE b.id = #{id}
             """)
     Board selectById(Integer id);
 
@@ -36,7 +42,6 @@ public interface BoardMapper {
             UPDATE board
             SET title = #{title},
                 content = #{content},
-                writer = #{writer},
                 inserted = NOW()
             WHERE id = #{id}
             """)
@@ -53,7 +58,26 @@ public interface BoardMapper {
 
     @Select("""
             SELECT COUNT(*)
-            FROM board;
+            FROM board
             """)
     int countAll();
+
+
+    @Select("""
+            SELECT b.id,
+                   b.title,
+                   m.nick_name writer,
+                   b.inserted
+            FROM board b JOIN member m ON b.member_id = m.id
+            ORDER BY id DESC
+            LIMIT #{offset}, 10
+            """)
+    List<Board> selectAllByPage(int offset);
+
+    @Delete("""
+            DELETE
+            FROM board
+            WHERE member_id = #{id}
+            """)
+    int deleteBoardByMemberId(Integer id);
 }

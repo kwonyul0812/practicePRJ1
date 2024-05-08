@@ -2,7 +2,10 @@ package com.practiceprj1.controller;
 
 import com.practiceprj1.domain.Member;
 import com.practiceprj1.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +33,7 @@ public class MemberController {
         System.out.println("member = " + member);
         service.signup(member);
 
-        return "redirect:/member/signup";
+        return "redirect:/";
     }
 
     @GetMapping("list")
@@ -58,17 +61,27 @@ public class MemberController {
     }
 
     @PostMapping("modify")
-    public String modify(Member member, RedirectAttributes rttr) {
-        service.update(member);
+    public String modify(Member member, Authentication authentication, RedirectAttributes rttr) {
+        if (service.hasAccess(member.getId(), authentication)) {
+            service.update(member);
+        }
         rttr.addAttribute("id", member.getId());
 
         return "redirect:/member/info";
     }
 
     @GetMapping("delete")
-    public String delete(Integer id) {
-        service.delete(id);
+    public String delete(Integer id, Authentication authentication, HttpServletRequest request) throws Exception {
+        if (service.hasAccess(id, authentication)) {
+            service.delete(id);
+            request.logout();
+        }
+        return "redirect:/";
+    }
 
-        return "redirect:/member/list";
+    @GetMapping("login")
+    public String loginForm() {
+
+        return "member/login";
     }
 }

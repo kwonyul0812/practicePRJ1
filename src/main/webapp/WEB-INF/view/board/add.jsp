@@ -25,10 +25,6 @@
         <textarea name="content" cols="30" rows="10" required></textarea>
     </div>
     <div>
-        작성자
-        <input type="text" name="writer" required>
-    </div>
-    <div>
         <button>확인</button>
     </div>
 </form>

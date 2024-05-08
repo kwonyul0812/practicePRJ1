@@ -11,24 +11,19 @@
 <body>
 
 <c:import url="/WEB-INF/fragment/navbar.jsp"/>
-
-<h3>회원정보 수정</h3>
-<form action="/member/modify" method="post">
-    <input type="hidden" name="id" value="${member.id}">
+|
+<h3>로그인</h3>
+<form action="/member/login" method="post">
     <div>
         이메일
-        <input type="email" name="email" value="${member.email}" required>
+        <input type="text" name="username">
     </div>
     <div>
         비밀번호
         <input type="password" name="password">
     </div>
     <div>
-        별명
-        <input type="text" name="nickName" value="${member.nickName}" required>
-    </div>
-    <div>
-        <button class="btn btn-secondary">수정</button>
+        <button class="btn btn-primary">로그인</button>
     </div>
 </form>
 

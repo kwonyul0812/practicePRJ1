@@ -23,7 +23,7 @@ CREATE TABLE board
     id       INT PRIMARY KEY AUTO_INCREMENT,
     title    VARCHAR(200)  NOT NULL,
     content  VARCHAR(3000) NOT NULL,
-    writer   VARCHAR(200)  NOT NULL,
+    member_id INT REFERENCES member(id),
     inserted DATETIME      NOT NULL DEFAULT NOW()
 );
 
@@ -44,3 +44,5 @@ ADD COLUMN member_id INT REFERENCES member(id);
 UPDATE board
 SET member_id = 12
 WHERE id > 0;
+
+SELECT COUNT(*) FROM board;

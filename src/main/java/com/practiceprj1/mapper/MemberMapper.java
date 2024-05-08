@@ -46,4 +46,12 @@ public interface MemberMapper {
         WHERE id = #{id}
         """)
     int delete(Integer id);
+
+
+@Select("""
+        SELECT *
+        FROM member
+        WHERE email = #{username}
+        """)
+    Member selectByEmail(String username);
 }
