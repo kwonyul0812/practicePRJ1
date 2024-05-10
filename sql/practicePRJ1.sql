@@ -46,3 +46,20 @@ SET member_id = 12
 WHERE id > 0;
 
 SELECT COUNT(*) FROM board;
+
+DESC member;
+SELECT * FROM member;
+
+create table authority (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    member_id INT NOT NULL REFERENCES member(id),
+    name VARCHAR(20) NOT NULL
+);
+
+INSERT INTO authority
+(member_id, name)
+VALUES (33, 'admin');
+
+SELECT * FROM authority;
+
+SELECT * FROM member m LEFT JOIN authority a on m.id = a.member_id;
