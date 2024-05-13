@@ -47,12 +47,15 @@ public class MemberController {
     }
 
     @GetMapping("info")
-    public String info(Integer id,Authentication authentication, Model model) {
+    public String info(Integer id, Authentication authentication, Model model) {
+        if (service.hasAccess(id, authentication) || service.isAdmin(authentication)) {
 
-        Member member = service.selectById(id);
-        model.addAttribute("member", member);
-x
-        return "member/info";
+            Member member = service.selectById(id);
+            model.addAttribute("member", member);
+            return "member/info";
+        }
+
+        return "redirect:/";
     }
 
     @GetMapping("modify")
@@ -65,7 +68,7 @@ x
 
     @PostMapping("modify")
     public String modify(Member member, Authentication authentication, RedirectAttributes rttr) {
-        if (service.hasAccess(member.getId(), authentication)) {
+        if (service.hasAccess(member.getId(), authentication) || service.isAdmin(authentication)) {
             service.update(member);
         }
         rttr.addAttribute("id", member.getId());
@@ -75,9 +78,10 @@ x
 
     @GetMapping("delete")
     public String delete(Integer id, Authentication authentication, HttpServletRequest request) throws Exception {
-        if (service.hasAccess(id, authentication)) {
+        if (service.hasAccess(id, authentication) || service.isAdmin(authentication)) {
             service.delete(id);
-            request.logout();
+            if (!service.isAdmin(authentication))
+                request.logout();
         }
         return "redirect:/";
     }

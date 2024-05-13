@@ -32,24 +32,18 @@
 </div>
 
 <sec:authorize access="isAuthenticated()">
-    <sec:authentication property="principal.member" var="authMember"/>
-    <c:if test="${authMember.id eq member.id}">
-        <div>
-            <a href="/member/modify?id=${member.id}" class="btn btn-secondary">수정</a>
-            <button class="btn btn-danger" form="formDelete">탈퇴</button>
-        </div>
-    </c:if>
+    <div>
+        <a href="/member/modify?id=${member.id}" class="btn btn-secondary">수정</a>
+        <button class="btn btn-danger" form="formDelete">탈퇴</button>
+    </div>
 </sec:authorize>
 
 <sec:authorize access="isAuthenticated()">
-    <sec:authentication property="principal.member" var="authMember"/>
-    <c:if test="${authMember.id eq member.id}">
-        <div style="display: none">
-            <form action="/member/delete" id="formDelete" onsubmit="return confirm('탈퇴 하시겠습니까?')">
-                <input type="text" name="id" value="${member.id}">
-            </form>
-        </div>
-    </c:if>
+    <div style="display: none">
+        <form action="/member/delete" id="formDelete" onsubmit="return confirm('탈퇴 하시겠습니까?')">
+            <input type="text" name="id" value="${member.id}">
+        </form>
+    </div>
 </sec:authorize>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"

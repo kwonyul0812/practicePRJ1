@@ -19,6 +19,12 @@
                 </li>
             </sec:authorize>
         </sec:authorize>
+        <sec:authorize access="isAuthenticated()">
+            <sec:authentication property="principal.member" var="member"/>
+            <li style="margin-right: 20px;">
+                <a href="/member/info?id=${member.id}">내정보</a>
+            </li>
+        </sec:authorize>
         <sec:authorize access="not isAuthenticated()">
             <li style="margin-right: 20px;">
                 <a href="/member/signup">회원가입</a>
