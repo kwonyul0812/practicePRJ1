@@ -5,6 +5,7 @@ import com.practiceprj1.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +38,8 @@ public class MemberController {
     }
 
     @GetMapping("list")
-    public String list(Model model) {
+    @PreAuthorize("hasAuthority('admin')")
+    public String list(Model model, Authentication authentication) {
         List<Member> list = service.memberList();
         model.addAttribute("memberList", list);
 
@@ -45,10 +47,11 @@ public class MemberController {
     }
 
     @GetMapping("info")
-    public String info(Integer id, Model model) {
+    public String info(Integer id,Authentication authentication, Model model) {
+
         Member member = service.selectById(id);
         model.addAttribute("member", member);
-
+x
         return "member/info";
     }
 
