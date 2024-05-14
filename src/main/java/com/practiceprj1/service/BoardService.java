@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +17,27 @@ public class BoardService {
         mapper.insert(board);
     }
 
-    public List<Board> boardList() {
-        return mapper.boardList();
+    public Map<String, Object> boardList(Integer page) {
+        int numberOfBoard = mapper.countAll();
+        int offset = (page - 1) * 10;
+        int lastPageNumber = (numberOfBoard - 1) / 10 + 1;
+        int endPageNumber = ((page - 1) / 10 + 1) * 10;
+        int beginPageNumber = endPageNumber - 9;
+
+        endPageNumber = Math.min(endPageNumber, lastPageNumber);
+
+        int prevPageNumber = beginPageNumber - 10;
+        int nextPageNumber = beginPageNumber + 10;
+
+        return Map.of("boardList", mapper.boardList(offset),
+                "pageInfo", Map.of(
+                        "lastPageNumber", lastPageNumber,
+                        "endPageNumber", endPageNumber,
+                        "beginPageNumber", beginPageNumber,
+                        "prevPageNumber", prevPageNumber,
+                        "nextPageNumber", nextPageNumber,
+                        "currentPage", page
+                ));
     }
 
     public Board selectById(Integer id) {

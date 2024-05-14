@@ -19,9 +19,10 @@ public interface BoardMapper {
     @Select("""
             SELECT *
             FROM board
-            ORDER BY id DESC;
+            ORDER BY id DESC
+            LIMIT #{offset}, 10
             """)
-    List<Board> boardList();
+    List<Board> boardList(int offset);
 
 
     @Select("""
@@ -49,4 +50,10 @@ public interface BoardMapper {
             WHERE id = #{id}
             """)
     int delete(Integer id);
+
+    @Select("""
+            SELECT COUNT(*)
+            FROM board;
+            """)
+    int countAll();
 }

@@ -44,6 +44,26 @@
     </tbody>
 </table>
 
+<c:if test="${pageInfo.currentPage > 1}">
+    <a href="/?page=1">맨앞</a>
+</c:if>
+
+<c:if test="${pageInfo.prevPageNumber > 0}" >
+    <a href="/?page=${pageInfo.prevPageNumber}">이전</a>
+</c:if>
+
+<c:forEach begin="${pageInfo.beginPageNumber}" end="${pageInfo.endPageNumber}" var="page">
+    <a href="/?page=${page}">${page}</a>
+</c:forEach>
+
+<c:if test="${pageInfo.nextPageNumber < pageInfo.lastPageNumber}">
+    <a href="/?page=${pageInfo.nextPageNumber}">다음</a>
+</c:if>
+
+<c:if test="${pageInfo.currentPage < pageInfo.lastPageNumber}">
+    <a href="/?page=${pageInfo.lastPageNumber}">맨뒤</a>
+</c:if>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
         integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
