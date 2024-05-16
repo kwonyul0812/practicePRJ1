@@ -34,3 +34,11 @@ INSERT INTO board
 (title, content, writer)
 SELECT title, content, writer
 FROM board;
+
+ALTER TABLE board
+DROP member_id;
+
+
+
+
+

@@ -10,22 +10,17 @@
 </head>
 <body>
 
-<c:import url="/WEB-INF/fragment/navbar.jsp"/>
+<h3>로그인</h3>
 
-<h3>게시글 작성</h3>
-
-
-<form action="/add" method="post">
+<form action="/member/login" method="post">
     <div>
-        제목
-        <input type="text" name="title" required>
+        <input type="email" name="username" required>
     </div>
     <div>
-        내용
-        <textarea name="content" cols="30" rows="10" required></textarea>
+        <input type="password" name="password" required>
     </div>
     <div>
-        <button>확인</button>
+        <button class="btn btn-primary">로그인</button>
     </div>
 </form>
 

@@ -2,6 +2,8 @@ package com.practiceprj1.controller;
 
 import com.practiceprj1.domain.Member;
 import com.practiceprj1.service.MemberService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -70,5 +72,16 @@ public class MemberController {
         service.delete(id);
 
         return "redirect:/member/list";
+    }
+
+    @GetMapping("login")
+    public String login() {
+        return "member/login";
+    }
+
+    @GetMapping("logout")
+    public String logout(HttpServletRequest request) throws ServletException {
+        request.logout();
+        return "redirect:/";
     }
 }

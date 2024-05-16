@@ -23,10 +23,6 @@
         <textarea name="content" cols="30" rows="10" required>${board.content}</textarea>
     </div>
     <div>
-        작성자
-        <input type="text" name="writer" value="${board.writer}" required>
-    </div>
-    <div>
         <button class="btn btn-secondary">수정</button>
     </div>
 </form>
