@@ -10,6 +10,8 @@
 </head>
 <body>
 
+<c:import url="/WEB-INF/fragment/navbar.jsp"/>
+
 <h3>로그인</h3>
 
 <form action="/member/login" method="post">

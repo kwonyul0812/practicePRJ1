@@ -5,6 +5,8 @@ import com.practiceprj1.service.MemberService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +38,7 @@ public class MemberController {
     }
 
     @GetMapping("list")
+    @PreAuthorize("hasAuthority('admin')")
     public String list(Model model) {
         List<Member> list = service.memberList();
         model.addAttribute("memberList", list);
@@ -44,11 +47,14 @@ public class MemberController {
     }
 
     @GetMapping("info")
-    public String info(Integer id, Model model) {
-        Member member = service.selectById(id);
-        model.addAttribute("member", member);
+    public String info(Integer id, Authentication authentication, Model model) {
+        if (service.hasAccess(id, authentication) || service.isAdmin(authentication)) {
+            Member member = service.selectById(id);
+            model.addAttribute("member", member);
+            return "member/info";
+        }
 
-        return "member/info";
+        return "redirect:/";
     }
 
     @GetMapping("modify")
@@ -60,18 +66,23 @@ public class MemberController {
     }
 
     @PostMapping("modify")
-    public String modify(Member member, RedirectAttributes rttr) {
-        service.update(member);
-        rttr.addAttribute("id", member.getId());
+    public String modify(Member member, Authentication authentication, RedirectAttributes rttr) {
+        if (service.hasAccess(member.getId(), authentication)) {
+            service.update(member);
+            rttr.addAttribute("id", member.getId());
+            return "redirect:/member/info";
+        }
 
-        return "redirect:/member/info";
+        return "redirect:/";
+
     }
 
     @GetMapping("delete")
-    public String delete(Integer id) {
-        service.delete(id);
-
-        return "redirect:/member/list";
+    public String delete(Integer id, Authentication authentication) {
+        if(service.hasAccess(id, authentication)) {
+            service.delete(id);
+        }
+        return "redirect:/";
     }
 
     @GetMapping("login")

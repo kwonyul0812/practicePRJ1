@@ -21,7 +21,7 @@
     </div>
     <div>
         비밀번호
-        <input type="password" name="password" value="${member.password}" required>
+        <input type="password" name="password">
     </div>
     <div>
         별명

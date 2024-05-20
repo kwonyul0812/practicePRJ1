@@ -13,8 +13,16 @@
             </li>
         </sec:authorize>
         <sec:authorize access="isAuthenticated()">
+            <sec:authorize access="hasAuthority('admin')">
+                <li style="margin-right: 20px;">
+                    <a href="/member/list">회원목록</a>
+                </li>
+            </sec:authorize>
+        </sec:authorize>
+        <sec:authorize access="isAuthenticated()">
+            <sec:authentication property="principal.member" var="authMember"/>
             <li style="margin-right: 20px;">
-                <a href="/member/list">회원목록</a>
+                <a href="/member/info?id=${authMember.id}">내정보</a>
             </li>
         </sec:authorize>
         <sec:authorize access="not isAuthenticated()">

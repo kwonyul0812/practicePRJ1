@@ -10,9 +10,10 @@ public interface BoardMapper {
 
     @Insert("""
             INSERT INTO board
-            (title, content, writer)
-            VALUES (#{title}, #{content}, #{writer})
+            (title, content, member_id)
+            VALUES (#{title}, #{content}, #{memberId})
             """)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     void insert(Board board);
 
 
@@ -33,7 +34,8 @@ public interface BoardMapper {
                    b.title,
                    b.content,
                    b.inserted,
-                   m.nick_Name writer
+                   m.nick_Name writer,
+                   b.member_id
             FROM board b JOIN member m ON b.member_id = m.id
             WHERE b.id = #{id};
             """)
@@ -44,7 +46,6 @@ public interface BoardMapper {
             UPDATE board
             SET title = #{title},
                 content = #{content},
-                writer = #{writer},
                 inserted = NOW()
             WHERE id = #{id}
             """)

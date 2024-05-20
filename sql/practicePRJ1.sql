@@ -14,6 +14,7 @@ CREATE TABLE member
 ALTER TABLE member
     CHANGE inserted inserted DATETIME NOT NULL DEFAULT NOW();
 
+
 DESC member;
 SELECT *
 FROM member;
@@ -38,6 +39,14 @@ FROM board;
 ALTER TABLE board
 DROP member_id;
 
+CREATE TABLE authority (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    member_id INT NOT NULL REFERENCES member(id),
+    name VARCHAR(100) NOT NULL
+);
+
+DESC authority;
+SELECT * FROM authority;
 
 
 
